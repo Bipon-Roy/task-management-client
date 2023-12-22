@@ -1,0 +1,5 @@
+nav a.active {
+    font-weight: 600;
+    padding: 5px 10px;
+    border-bottom: 3px solid purple;
+}
