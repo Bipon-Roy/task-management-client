@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import bannerImg from "../../../assets/BannerVector.png";
 import useAuth from "../../../Hooks/useAuth";
+
 const Banner = () => {
     const { user } = useAuth;
     return (

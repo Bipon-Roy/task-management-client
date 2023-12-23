@@ -10,13 +10,10 @@ import "swiper/css/scrollbar";
 
 const Testimonials = () => {
     return (
-        <div className=" mt-8">
+        <div className=" my-12">
             <div className="my-5 space-y-2 ">
                 <h1 className="text-center font-semibold text-2xl md:text-4xl ">
-                    What Our{" "}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">
-                        Clients Says
-                    </span>
+                    What Our <span className="text-primary">Clients Says</span>
                 </h1>
                 <p className="text-xs md:text-base w-2/3 md:w-[600px] text-center mx-auto">
                     Discover what our satisfied guests have to say about their experiences with our
@@ -33,7 +30,7 @@ const Testimonials = () => {
                     disableOnInteraction: false,
                 }}
                 modules={[Pagination, Autoplay]}
-                className="mySwiper bg-mainBg"
+                className="mySwiper"
             >
                 <SwiperSlide>
                     <div className="rounded">
@@ -45,7 +42,7 @@ const Testimonials = () => {
                                 <p className="font-bold text-mainText">John Doe</p>
                             </div>
                             <div className="">
-                                <BiSolidQuoteAltLeft className="text-secondary text-2xl" />
+                                <BiSolidQuoteAltLeft className="text-primary text-2xl" />
                                 <p className="text-sm md:text-base text-center font-medium text-mainText">
                                     Exceptional service! Our HR processes have never been smoother.
                                     The platform&apos;s intuitive design and powerful features have
@@ -65,7 +62,7 @@ const Testimonials = () => {
                                 <p className="font-bold text-mainText">Emily Daviske</p>
                             </div>
                             <div className="">
-                                <BiSolidQuoteAltLeft className="text-secondary text-2xl" />
+                                <BiSolidQuoteAltLeft className="text-primary text-2xl" />
                                 <p className="text-center text-sm md:text-base text-mainText font-medium">
                                     Choosing this service was a game-changer for us. The team&apos;s
                                     professionalism and the platform&apos;s user-friendly interface
@@ -85,7 +82,7 @@ const Testimonials = () => {
                                 <p className="font-bold text-mainText">Michael Johnson</p>
                             </div>
                             <div className="">
-                                <BiSolidQuoteAltLeft className="text-secondary text-2xl" />
+                                <BiSolidQuoteAltLeft className="text-primary text-2xl" />
                                 <p className="text-center text-sm md:text-base text-mainText font-medium">
                                     We&apos;ve seen a remarkable transformation in our employee
                                     management since implementing this service. The customization
@@ -106,7 +103,7 @@ const Testimonials = () => {
                                 <p className="font-bold text-mainText">Emily Davis</p>
                             </div>
                             <div className="">
-                                <BiSolidQuoteAltLeft className="text-secondary text-2xl" />
+                                <BiSolidQuoteAltLeft className="text-primary text-2xl" />
                                 <p className="text-center text-sm md:text-base text-mainText font-medium">
                                     Our experience has been nothing short of fantastic. The platform
                                     offers a perfect blend of simplicity and functionality. It has
