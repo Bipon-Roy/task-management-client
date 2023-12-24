@@ -19,7 +19,7 @@ const Banner = () => {
                 <div className="mt-8 mx-5 text-mainText md:w-1/2 lg:w-full text-white">
                     <h1 className="text-2xl lg:text-4xl font-bold mb-4">
                         Unlock Seamless
-                        <span className="text-primary"> Task Management Solutions.</span>
+                        <span className="text-primary">Task Management Solutions.</span>
                     </h1>
                     <p className="md:w-3/4 font-medium text-sm md:text-base mb-4">
                         Effortlessly manage your workforce and optimize Daily tasks with our
@@ -29,17 +29,17 @@ const Banner = () => {
                     <div className="mt-8">
                         {user ? (
                             <Link
-                                to="/dashboard/home"
+                                to="/dashboard"
                                 className="border-2 border-primary text-mainText px-10 py-2 text-xl font-semibold"
                             >
-                                Explore
+                                Let&apos;s Explore
                             </Link>
                         ) : (
                             <Link
                                 to="/signup"
                                 className="border-2 border-primary text-mainText px-10 py-2 text-xl font-semibold"
                             >
-                                Explore
+                                Let&apos;s Explore
                             </Link>
                         )}
                     </div>

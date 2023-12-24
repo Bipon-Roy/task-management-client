@@ -1,13 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
-import loginImage from "../../../src/assets/login.png";
-
 import Swal from "sweetalert2";
-
 import useAuth from "../../Hooks/useAuth";
-
 import SocialLogin from "../../Components/SocialLogin";
 
 const Login = () => {
