@@ -7,12 +7,12 @@ import loginImage from "../../../src/assets/login.png";
 import Swal from "sweetalert2";
 
 import useAuth from "../../Hooks/useAuth";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+
+import SocialLogin from "../../Components/SocialLogin";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { logIn, logOut } = useAuth();
-    const axiosPublic = useAxiosPublic();
+    const { logIn } = useAuth();
 
     const route = useNavigate();
     const location = useLocation();
@@ -23,20 +23,6 @@ const Login = () => {
         const formData = new FormData(e.currentTarget);
         const email = formData.get("email");
         const password = formData.get("password");
-
-        const isFiredResponse = await axiosPublic.post("/employees/isFired", { email });
-
-        console.log(isFiredResponse.data);
-
-        if (!isFiredResponse.data.success) {
-            logOut();
-            Swal.fire({
-                icon: "error",
-                title: "Error!",
-                text: "You are fired! Please contact HR for assistance.",
-            });
-            return;
-        }
 
         logIn(email, password)
             .then((result) => {
@@ -59,11 +45,8 @@ const Login = () => {
     };
 
     return (
-        <div className="flex flex-col-reverse md:flex-row justify-center items-center bg-mainBg max-w-7xl mx-auto">
-            <div>
-                <img src={loginImage} alt="LoginPageVector" />
-            </div>
-            <div className="w-full p-8 md:w-3/4 lg:w-1/2">
+        <div className="flex flex-col justify-center items-center  max-w-7xl mx-auto lg:mt-20">
+            <div className="w-full p-8 md:w-3/4 lg:w-1/2 border shadow-lg">
                 <form className="mx-auto space-y-4" onSubmit={handleLogin}>
                     <h1 className="font-bold text-center mb-5 text-xl text-[#22223b] uppercase">
                         Login Here
@@ -107,6 +90,8 @@ const Login = () => {
                         </Link>
                     </div>
                 </form>
+
+                <SocialLogin />
             </div>
         </div>
     );
