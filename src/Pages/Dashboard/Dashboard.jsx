@@ -57,28 +57,28 @@ const Dashboard = () => {
         });
     };
 
-    const reorder = (list, startIndex, endIndex) => {
-        const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
-        return result;
-    };
+    // const reorder = (list, startIndex, endIndex) => {
+    //     const result = Array.from(list);
+    //     const [removed] = result.splice(startIndex, 1);
+    //     result.splice(endIndex, 0, removed);
+    //     return result;
+    // };
 
     const handleDragEnd = (result) => {
         if (!result.destination) {
             return;
         }
 
-        const updatedTasks = reorder(
-            tasks.filter((task) => task.status === result.source.droppableId),
-            result.source.index,
-            result.destination.index
-        );
+        // const updatedTasks = reorder(
+        //     tasks.filter((task) => task.status === result.source.droppableId),
+        //     result.source.index,
+        //     result.destination.index
+        // );
 
         // Update the state or perform an API call to update the tasks in the database
-        const updatedTaskList = tasks.map(
-            (task) => updatedTasks.find((updatedTask) => updatedTask._id === task._id) || task
-        );
+        // const updatedTaskList = tasks.map(
+        //     (task) => updatedTasks.find((updatedTask) => updatedTask._id === task._id) || task
+        // );
 
         // Example: axios.put('/updateTasks', { tasks: updatedTaskList });
 
