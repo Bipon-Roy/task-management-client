@@ -7,6 +7,8 @@ import SignUp from "../Pages/SignUp/SignUp";
 import Contact from "../Pages/Contact/Contact";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import UpdateTask from "../Pages/Dashboard/UpdateTask";
+import About from "../Pages/About/About";
+
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -28,6 +30,10 @@ export const router = createBrowserRouter([
             {
                 path: "/contact",
                 element: <Contact />,
+            },
+            {
+                path: "/about",
+                element: <About />,
             },
             {
                 path: "/dashboard",
