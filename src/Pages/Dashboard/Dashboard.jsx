@@ -8,15 +8,15 @@ import toast, { Toaster } from "react-hot-toast";
 
 import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import useTask from "../../Hooks/useTask";
 import TaskCard from "./TaskCard";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import useTodo from "../../Hooks/useTodo";
+import useOngoing from "../../Hooks/useOngoing";
 
 const Dashboard = () => {
     const { user } = useAuth();
-    const [refetch, tasks] = useTask();
-
-    const todo = tasks.filter((task) => task.status === "todo");
-
+    const [reloadTodoList, todo] = useTodo();
+    const [reloadOngoingList, ongoing] = useOngoing();
     const {
         register,
         handleSubmit,
@@ -51,11 +51,40 @@ const Dashboard = () => {
             if (res.data.insertedId) {
                 toast.success("Task Successfully Added!");
                 reset();
-                refetch();
+                reloadTodoList();
+                reloadOngoingList();
             }
         });
     };
 
+    // const reorder = (list, startIndex, endIndex) => {
+    //     const result = Array.from(list);
+    //     const [removed] = result.splice(startIndex, 1);
+    //     result.splice(endIndex, 0, removed);
+    //     return result;
+    // };
+
+    const handleDragEnd = (result) => {
+        if (!result.destination) {
+            return;
+        }
+
+        // const updatedTasks = reorder(
+        //     tasks.filter((task) => task.status === result.source.droppableId),
+        //     result.source.index,
+        //     result.destination.index
+        // );
+
+        // // Update the state or perform an API call to update the tasks in the database
+        // const updatedTaskList = tasks.map(
+        //     (task) => updatedTasks.find((updatedTask) => updatedTask._id === task._id) || task
+        // );
+
+        // Example: axios.put('/updateTasks', { tasks: updatedTaskList });
+
+        // Refetch tasks after the update
+        // refetch();
+    };
     return (
         <div className="max-w-7xl mx-auto">
             <div className="border p-4 mt-8 flex justify-center items-center">
@@ -161,30 +190,99 @@ const Dashboard = () => {
                     </div>
                 </div>
             </dialog>
-            <div className="grid grid-cols-3 gap-5 mt-8">
-                <div className="p-4 lg:border">
-                    <h1 className="text-center font-semibold underline">ToDo</h1>
-                    <div className="p-4 overflow-y-auto">
-                        <ol className="list-decimal ml-1">
-                            {todo.map((todo) => (
-                                <li key={todo._id}>
-                                    <TaskCard task={todo} />
-                                </li>
-                            ))}
-                        </ol>
-                    </div>
+            <DragDropContext onDragEnd={handleDragEnd}>
+                <div className="grid grid-cols-3 gap-5 mt-8">
+                    <Droppable droppableId="todo" direction="vertical">
+                        {(provided) => (
+                            <div className="p-4 lg:border">
+                                <h1 className="text-center font-semibold max-w-fit mx-auto px-3 border-primary border-b-2">
+                                    ToDo
+                                </h1>
+                                <div
+                                    className="pl-6 py-4 overflow-y-auto"
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                >
+                                    <ol className="list-decimal">
+                                        {todo.map((task, index) => (
+                                            <Draggable
+                                                key={task._id}
+                                                draggableId={task._id}
+                                                index={index}
+                                            >
+                                                {(provided) => (
+                                                    <li
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        <TaskCard task={task} />
+                                                    </li>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                    </ol>
+                                    {provided.placeholder}
+                                </div>
+                            </div>
+                        )}
+                    </Droppable>
+
+                    <Droppable droppableId="ongoing" direction="vertical">
+                        {(provided) => (
+                            <div className="p-4 lg:border">
+                                <h1 className="text-center font-semibold max-w-fit mx-auto px-3 border-primary border-b-2">
+                                    Ongoing
+                                </h1>
+                                <div
+                                    className="pl-6 py-4 overflow-y-auto"
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                >
+                                    <ol className="list-decimal">
+                                        {ongoing.map((task, index) => (
+                                            <Draggable
+                                                key={task._id}
+                                                draggableId={task._id}
+                                                index={index}
+                                            >
+                                                {(provided) => (
+                                                    <li
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        <TaskCard task={task} />
+                                                    </li>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                    </ol>
+                                    {provided.placeholder}
+                                </div>
+                            </div>
+                        )}
+                    </Droppable>
+
+                    <Droppable droppableId="todo" direction="vertical">
+                        {(provided) => (
+                            <div className="p-4 lg:border">
+                                <h1 className="text-center font-semibold max-w-fit mx-auto px-3 border-primary border-b-2">
+                                    Completed
+                                </h1>
+                                <div
+                                    className="pl-6 py-4 overflow-y-auto"
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                >
+                                    <ol className="list-decimal"></ol>
+                                    {provided.placeholder}
+                                </div>
+                            </div>
+                        )}
+                    </Droppable>
                 </div>
-                <div className="p-4 lg:border">
-                    <h1 className="text-center font-semibold underline underline-offset-4">
-                        Ongoing
-                    </h1>
-                </div>
-                <div className="p-4 lg:border">
-                    <h1 className="text-center font-semibold underline underline-offset-4">
-                        Completed
-                    </h1>
-                </div>
-            </div>
+            </DragDropContext>
         </div>
     );
 };
