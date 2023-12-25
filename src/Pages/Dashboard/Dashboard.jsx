@@ -3,13 +3,19 @@ import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { CgCloseO } from "react-icons/cg";
 import "react-datepicker/dist/react-datepicker.css";
+
 import toast, { Toaster } from "react-hot-toast";
 
 import useAuth from "../../Hooks/useAuth";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useTask from "../../Hooks/useTask";
+import TaskCard from "./TaskCard";
 
 const Dashboard = () => {
     const { user } = useAuth();
+    const [refetch, tasks] = useTask();
+
+    const todo = tasks.filter((task) => task.status === "todo");
 
     const {
         register,
@@ -20,7 +26,7 @@ const Dashboard = () => {
 
     const [date, setDate] = useState(null);
 
-    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
 
     const handleDateValue = (date) => {
         setDate(date);
@@ -41,19 +47,13 @@ const Dashboard = () => {
             date,
             status,
         };
-        toast.success("Task Successfully Added!");
-        // axiosSecure.post("/tasks", task).then((res) => {
-        //     if (res.data.insertedId) {
-        //         Swal.fire({
-        //             icon: "success",
-        //             title: "Welcome!",
-        //             text: "Task Added Successfully!",
-        //         });
-        //         reset();
-        //         // refetch();
-        //     }
-        // });
-        console.log(task);
+        axiosPublic.post("/tasks", task).then((res) => {
+            if (res.data.insertedId) {
+                toast.success("Task Successfully Added!");
+                reset();
+                refetch();
+            }
+        });
     };
 
     return (
@@ -161,10 +161,29 @@ const Dashboard = () => {
                     </div>
                 </div>
             </dialog>
-            <div className="grid grid-cols-3 mt-8">
-                <div className="w-[400px] h-[500px] p-4 border">todo</div>
-                <div className="w-[400px] h-[500px] p-4 border">ongoing</div>
-                <div className="w-[400px] h-[500px] p-4 border">completed</div>
+            <div className="grid grid-cols-3 gap-5 mt-8">
+                <div className="p-4 lg:border">
+                    <h1 className="text-center font-semibold underline">ToDo</h1>
+                    <div className="p-4 overflow-y-auto">
+                        <ol className="list-decimal ml-1">
+                            {todo.map((todo) => (
+                                <li key={todo._id}>
+                                    <TaskCard task={todo} />
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+                </div>
+                <div className="p-4 lg:border">
+                    <h1 className="text-center font-semibold underline underline-offset-4">
+                        Ongoing
+                    </h1>
+                </div>
+                <div className="p-4 lg:border">
+                    <h1 className="text-center font-semibold underline underline-offset-4">
+                        Completed
+                    </h1>
+                </div>
             </div>
         </div>
     );
